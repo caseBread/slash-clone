@@ -7,7 +7,7 @@ const useWheel = (): [number, boolean, boolean] => {
   const [direction, setDirection] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   useEffect(() => {
-    const handleWheel = (e: any) => {
+    const handleWheel = (e: WheelEvent) => {
       setIndex((prev) => {
         if (prev + e.deltaY > 0 && prev + e.deltaY < MAX_WHEEL) {
           setIsEnd(false);
