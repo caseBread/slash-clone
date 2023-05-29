@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import useScroll from "../../../app.module/hooks/useScroll";
-import useWheel from "../../../app.module/hooks/useWheel";
+import useWheel, { MAX_WHEEL } from "../../../app.module/hooks/useWheel";
 
 const ScreenVideo = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const scrollY = useScroll();
-  const wheelCount = useWheel();
+  const [wheelCount, direction] = useWheel();
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -14,11 +14,7 @@ const ScreenVideo = () => {
 
   useEffect(() => {
     const video = videoRef.current as HTMLVideoElement;
-
-    if (wheelCount % 10 === 1) {
-      video.play();
-      setTimeout(() => video.pause(), 100);
-    }
+    video.currentTime = (wheelCount / MAX_WHEEL) * 4;
   }, [wheelCount]);
 
   return (
