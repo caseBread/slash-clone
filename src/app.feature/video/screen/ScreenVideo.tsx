@@ -1,20 +1,25 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import useScroll from "../../../app.module/hooks/useScroll";
+import useWheel from "../../../app.module/hooks/useWheel";
 
 const ScreenVideo = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const scrollY = useScroll();
+  const wheelCount = useWheel();
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current as HTMLVideoElement;
 
-    if (scrollY > 200) {
+    if (wheelCount % 10 === 1) {
       video.play();
-    } else {
-      video.pause();
+      setTimeout(() => video.pause(), 100);
     }
-  }, [scrollY]);
+  }, [wheelCount]);
 
   return (
     <StyledWrapper>

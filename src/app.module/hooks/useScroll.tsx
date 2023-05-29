@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const useScroll = () => {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = (e: any) => {
+      e.preventDefault();
+      console.log(11123);
       setScrollY(window.scrollY);
+    };
+
+    const handleWheel = () => {
+      console.log("wheel");
     };
 
     // 스크롤 이벤트 리스너 등록
