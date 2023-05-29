@@ -4,6 +4,7 @@ const App = () => {
   return (
     <>
       <ScreenVideo />
+      <div style={{ height: "100vh" }}></div>
     </>
   );
 };

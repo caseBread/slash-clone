@@ -6,16 +6,23 @@ import useWheel, { MAX_WHEEL } from "../../../app.module/hooks/useWheel";
 const ScreenVideo = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const scrollY = useScroll();
-  const [wheelCount, direction] = useWheel();
+  const [wheelCount, direction, isVideoEnd] = useWheel();
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-  }, []);
+    if (scrollY === 0) document.body.style.overflow = "hidden";
+  }, [scrollY]);
 
   useEffect(() => {
-    const video = videoRef.current as HTMLVideoElement;
-    video.currentTime = (wheelCount / MAX_WHEEL) * 4;
-  }, [wheelCount]);
+    if (isVideoEnd) document.body.style.overflow = "visible";
+  }, [isVideoEnd]);
+
+  useEffect(() => {
+    // 이게 동영상 시작 조건
+    if (scrollY === 0) {
+      const video = videoRef.current as HTMLVideoElement;
+      video.currentTime = (wheelCount / MAX_WHEEL) * 4;
+    }
+  }, [wheelCount, scrollY]);
 
   return (
     <StyledWrapper>

@@ -2,16 +2,20 @@ import { useEffect, useState } from "react";
 
 export const MAX_WHEEL = 4000;
 
-const useWheel = (): [number, boolean] => {
+const useWheel = (): [number, boolean, boolean] => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
   useEffect(() => {
     const handleWheel = (e: any) => {
       setIndex((prev) => {
-        if (prev + e.deltaY > 0 && prev + e.deltaY < MAX_WHEEL)
+        if (prev + e.deltaY > 0 && prev + e.deltaY < MAX_WHEEL) {
+          setIsEnd(false);
           return prev + e.deltaY;
-        else if (prev + e.deltaY >= MAX_WHEEL) return MAX_WHEEL;
-        else return 0;
+        } else if (prev + e.deltaY >= MAX_WHEEL) {
+          setIsEnd(true);
+          return MAX_WHEEL;
+        } else return 0;
       });
       setDirection(e.deltaY >= 0);
     };
@@ -22,7 +26,7 @@ const useWheel = (): [number, boolean] => {
     };
   }, []);
 
-  return [index, direction];
+  return [index, direction, isEnd];
 };
 
 export default useWheel;
